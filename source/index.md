@@ -4,10 +4,6 @@ title: API Reference
 language_tabs:
   - bash
 
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='http://github.com/mpociot/whiteboard'>Documentation Powered by Whiteboard</a>
-
 includes:
   - errors
 
@@ -50,70 +46,95 @@ curl "http://dv-otc-prod.azurewebsites.net/api/v3/trades"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "data": [
+        {
+            "_id": "5b04840d610af6110456057f",
+            "updatedAt": "2018-05-22T20:56:45.466Z",
+            "createdAt": "2018-05-22T20:56:45.466Z",
+            "price": 1147.77,
+            "indexPrice": 1147.77,
+            "quantity": 2,
+            "value": 2295.54,
+            "side": "Sell",
+            "user": {
+                "_id": "5ac67efc22e7222304f49f42",
+                "updatedAt": "2018-05-22T20:56:45.528Z",
+                "createdAt": "2018-04-05T19:54:36.359Z",
+                "email": "roger@bitcoin.cash",
+                "name": "Roger Ver",
+                "tokens": [],
+                "admin": false,
+                "__v": 0,
+                "internal": false,
+                "active": true,
+                "firstName": "Roger",
+                "groupAccount": "1",
+                "lastName": "Ver",
+                "profile": {
+                    "gender": "",
+                    "location": "",
+                    "website": ""
+                },
+                "cashBalance": 2296.54
+            },
+            "asset": "BCH",
+            "status": "Active",
+            "settlement": {
+                "assetReceived": false,
+                "assetSent": false,
+                "fiatReceived": false,
+                "fiatSent": false
+            },
+            "__v": 0
+        }
+    ]
+}
 ```
 
 This endpoint retrieves all trades.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://dv-otc-prod.azurewebsites.net/api/v3/trades`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+before | none | If set, will only return trades before this date/time.
+after | none |  If set, will only return trades after this date/time.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+# Trade Parameters
 
-## Get a Specific Kitten
+## Update Balance
 
 ```bash
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "http://dv-otc-prod.azurewebsites.net/api/v3/updateBalance"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  -d '{"balance": 1000, "groupAccount": 1, "asset": "USD"}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "asset": "USD",
+    "updatedBalance": 1000,
+    "groupAccount": "1"
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+This endpoint updates a user's balance.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST http://dv-otc-prod.azurewebsites.net/api/v3/updateBalance`
 
-### URL Parameters
+### Body Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required? | Description
+--------- | ------- | -----------
+groupAccount | true | The group account number of the user whose balance should be updated.
+asset | true | The asset that is being updated.
+balance | true | The balance value that should be set.

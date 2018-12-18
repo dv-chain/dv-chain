@@ -14,13 +14,24 @@ search: true
 
 Welcome to the DVC OTC API. You can use our API to access DVC OTC API endpoints, that expose data such as trades, prices, and user information, depending on your scope.
 
+# Environment URLs
+
+The DV OTC API is available in both Production as well as Sandbox Mode. Please find the corresponding URLs below
+
+### Production
+https://otc.dvchain.co/api/v4
+
+### Sandbox
+https://sandbox.otc.dvchain.co/api/v4
+
+
 
 # Authentication
 
 > To retrieve your JWT, use this code:
 
 ```bash
-curl "http://dv-otc-prod.azurewebsites.net/api/v3/auth"
+curl "https://sandbox.otc.dvchain.co/api/v4/auth"
   -H "Authorization: ZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -34,12 +45,166 @@ The API expects for your JWT to be included in all API requests to the server in
 You must replace <code>eyJhbGciOiJ...</code> with your JWT.
 </aside>
 
+# Prices
+
+## Get Current Asset Prices
+
+```bash
+curl "https://sandbox.otc.dvchain.co/api/v4/prices"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "BTC": {
+        "levels": [
+            {
+                "sellPrice": 6181.4,
+                "buyPrice": 6218.61,
+                "maxQuantity": 1
+            },
+            {
+                "sellPrice": 6171.43,
+                "buyPrice": 6228.63,
+                "maxQuantity": 5
+            },
+            {
+                "sellPrice": 6161.46,
+                "buyPrice": 6238.66,
+                "maxQuantity": 10
+            }
+        ],
+        "expiresAt": 1539626145342
+    },
+    "ETH": {
+        "levels": [
+            {
+                "sellPrice": 198.4,
+                "buyPrice": 200.6,
+                "maxQuantity": 10
+            },
+            {
+                "sellPrice": 197.41,
+                "buyPrice": 201.6,
+                "maxQuantity": 20
+            },
+            {
+                "sellPrice": 196.41,
+                "buyPrice": 202.61,
+                "maxQuantity": 30
+            }
+        ],
+        "expiresAt": 1539626145342
+    }
+}
+```
+
+This endpoint retrieves all available products and their prices. 
+
+The levels array includes the asset price by quantity.
+
+For example, an order of up to 1 BTC would be priced at $6,218.61 per Bitcoin for a buy order, and $6,181.40 per Bitcoin for a sell order. An order of up to 5 BTC would be priced at $6,228.63 per Bitcoin for a buy order, and $6,171.43 per Bitcoin for a sell order.
+
+The given price will expire after the "expiresAt" time has passed.
+
+### HTTP Request
+
+`GET https://sandbox.otc.dvchain.co/api/v4/prices`
+
+# RFQ
+
+## Get Current Asset Price By Size
+
+```bash
+curl "https://sandbox.otc.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+   "asset": "ETH",
+   "price": 201.6,
+   "qty": 19,
+   "side": "Buy",
+   "expiresAt": 1540246595317
+}
+```
+
+This endpoint retrieves the buy/sell price for an asset at the requested quantity. 
+
+The given price will expire after the "expiresAt" time has passed.
+
+### HTTP Request
+
+`GET https://sandbox.otc.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC`
+
+### Query Params
+
+Parameter  | Description
+--------- | -----------
+side | Buy or Sell
+qty | The quantity you would like to purchase.
+asset | The asset you would like to purchase.
+
+# Trade
+
+## Execute a Trade
+
+```bash
+curl "https://sandbox.otc.dvchain.co/api/v4/trade" \
+  -X POST \
+  -d '{"side": "Buy","qty": 0.1,"price": 527.51,"asset": "BCH"}' \
+  -H "Content-Type: application/json" \
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "_id": "5bbe696c5f7cec5b98ca5e9a",
+    "createdAt": "2018-10-10T21:04:44.361Z",
+    "price": 527.51,
+    "quantity": 0.1,
+    "side": "Buy",
+    "user": {
+        "_id": "5ab545a4b933aa1f78e25f34",
+        "firstName": "Roger",
+        "lastName": "Ver"
+    },
+    "asset": "BTC",
+    "status": "Complete"
+}
+```
+
+This endpoint executes a trade at the current asset price for the given quantity.
+
+### HTTP Request
+
+`POST https://sandbox.otc.dvchain.co/api/v4/trades`
+
+### Request Body
+
+Parameter | Default | Description
+--------- | ------- | -----------
+orderType | Market | Market or Limit
+side | none | Buy or Sell
+qty | none | The quantity you would like to purchase.
+asset | none | The asset you would like to purchase.
+price | none | (Required for a market order) The current price of the asset returned from the /prices or /rfq endpoint.
+limitPrice | none | (Required for a limit order) The limit price that you would like to pay.
+
+
 # Trades
 
 ## Get All Trades
 
 ```bash
-curl "http://dv-otc-prod.azurewebsites.net/api/v3/trades"
+curl "https://sandbox.otc.dvchain.co/api/v4/trades"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -49,46 +214,22 @@ curl "http://dv-otc-prod.azurewebsites.net/api/v3/trades"
 {
     "data": [
         {
-            "_id": "5b04840d610af6110456057f",
-            "updatedAt": "2018-05-22T20:56:45.466Z",
-            "createdAt": "2018-05-22T20:56:45.466Z",
-            "price": 1147.77,
-            "indexPrice": 1147.77,
-            "quantity": 2,
-            "value": 2295.54,
-            "side": "Sell",
+            "_id": "5bbd1c6709ac22627841ad32",
+            "createdAt": "2018-10-09T21:23:51.757Z",
+            "price": 513.3,
+            "quantity": 0.1,
+            "side": "Buy",
             "user": {
-                "_id": "5ac67efc22e7222304f49f42",
-                "updatedAt": "2018-05-22T20:56:45.528Z",
-                "createdAt": "2018-04-05T19:54:36.359Z",
-                "email": "roger@bitcoin.cash",
-                "name": "Roger Ver",
-                "tokens": [],
-                "admin": false,
-                "__v": 0,
-                "internal": false,
-                "active": true,
+                "_id": "5ab545a4b933aa1f78e25f34",
                 "firstName": "Roger",
-                "groupAccount": "1",
-                "lastName": "Ver",
-                "profile": {
-                    "gender": "",
-                    "location": "",
-                    "website": ""
-                },
-                "cashBalance": 2296.54
+                "lastName": "Ver"
             },
             "asset": "BCH",
-            "status": "Active",
-            "settlement": {
-                "assetReceived": false,
-                "assetSent": false,
-                "fiatReceived": false,
-                "fiatSent": false
-            },
-            "__v": 0
+            "status": "Complete"
         }
-    ]
+    ],
+    "total": 1,
+    "pageCount": 1
 }
 ```
 
@@ -96,7 +237,7 @@ This endpoint retrieves all trades.
 
 ### HTTP Request
 
-`GET http://dv-otc-prod.azurewebsites.net/api/v3/trades`
+`GET https://sandbox.otc.dvchain.co/api/v4/trades`
 
 ### Query Parameters
 
@@ -104,37 +245,29 @@ Parameter | Default | Description
 --------- | ------- | -----------
 before | none | If set, will only return trades before this date/time.
 after | none |  If set, will only return trades after this date/time.
+page | none | If set, it will return the given page number of trades.
+limit | none | If set, it will limit the number of trades returned per page.
 
-# Trade Parameters
-
-## Update Balance
+## Cancel a Limit Order
 
 ```bash
-curl "http://dv-otc-prod.azurewebsites.net/api/v3/updateBalance"
+curl "https://sandbox.otc.dvchain.co/api/v4/trades/:tradeId" \
+  -X DELETE \
+  -H "Content-Type: application/json" \
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-  -d '{"balance": 1000, "groupAccount": 1, "asset": "USD"}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-    "asset": "USD",
-    "updatedBalance": 1000,
-    "groupAccount": "1"
+    "message": "Trade successfully cancelled."
 }
 ```
 
-This endpoint updates a user's balance.
+This endpoint cancels an open limit order.
 
 ### HTTP Request
 
-`POST http://dv-otc-prod.azurewebsites.net/api/v3/updateBalance`
+`DELETE https://sandbox.otc.dvchain.co/api/v4/trades/:tradeId`
 
-### Body Parameters
-
-Parameter | Required? | Description
---------- | ------- | -----------
-groupAccount | true | The group account number of the user whose balance should be updated.
-asset | true | The asset that is being updated.
-balance | true | The balance value that should be set.

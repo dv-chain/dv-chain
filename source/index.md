@@ -36,6 +36,10 @@ curl "https://sandbox.otc.dvchain.co/api/v4/auth"
 ```
 
 This API uses [JSON Web Tokens](https://jwt.io/) (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through [BASIC authentication](https://swagger.io/docs/specification/authentication/basic-authentication/).
+You can request a read only JWT that will only allow actions that will not modify, create, or delete objects.
+To retrieve a read only token, include `scope=readOnly` in your query params. Your request URL will look like:
+
+`https://sandbox.trade.dvchain.co/api/v4/auth?scope=readOnly`
 
 The API expects for your JWT to be included in all API requests to the server in a header that looks like the following:
 
@@ -134,7 +138,9 @@ curl "https://sandbox.otc.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
 }
 ```
 
-This endpoint retrieves the buy/sell price for an asset at the requested quantity. 
+This endpoint retrieves the buy/sell price for an asset at the requested quantity.
+If you use the `fiat` query parameter instead of `qty`, the endpoint retrieves
+the buy/sell quantity at that requested price
 
 The given price will expire after the "expiresAt" time has passed.
 
@@ -148,7 +154,12 @@ Parameter  | Description
 --------- | -----------
 side | Buy or Sell
 qty | The quantity you would like to purchase.
+fiat | The amount you would like to spend in USD to purchase.
 asset | The asset you would like to purchase.
+
+<aside class="notice">
+You must specify `qty` or `fiat`, but not both. Using both query parameters will result in undefined behavior.
+</aside>
 
 # Trade
 

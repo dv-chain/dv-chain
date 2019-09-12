@@ -167,7 +167,7 @@ Executing a trade with the Token Trade workflow consists of:
 2. Submitting the `tradeKey` returned from the previous call to the `api/v5/rfq/execute` endpoint to execute your trade.
 
 ## RFQ
-```json
+```bash
 curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
@@ -212,7 +212,7 @@ asset | The asset you would like to purchase.
 
 ## Execute Trade
 
-```json
+```bash
 curl "https://sandbox.trade.dvchain.co/api/v5/RFQ/execute" \
   -X POST \
   -d '{ "key" : "5cd07738b861c31e3bd61467BTC1Buy1568311644602" }' \

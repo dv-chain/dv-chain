@@ -117,9 +117,142 @@ The given price will expire after the "expiresAt" time has passed.
 
 `GET https://sandbox.trade.dvchain.co/api/v4/prices`
 
-# RFQ
+## Get Coin Pair Pricing
 
+```bash
+curl "https://sandbox.trade.dvchain.co/api/v4/prices/BTC/BCH"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "BTC": {
+        "levels": [
+            {
+                "sellPrice": 10.59319286871961,
+                "buyPrice": 11.420593368237347,
+                "maxQuantity": 1
+            },
+            {
+                "sellPrice": 10.588330632090761,
+                "buyPrice": 11.425828970331589,
+                "maxQuantity": 3
+            },
+            {
+                "sellPrice": 10.581847649918963,
+                "buyPrice": 11.432809773123909,
+                "maxQuantity": 5
+            }
+        ],
+        "expiresAt": 1545161432916
+    }
+}
+```
+
+
+This endpoint retrieves the conversion pricing for coin to coin transactions.
+
+The first symbol in the URL is the asset that will be purchased, and the second symbol is the asset that will be sold.
+
+### HTTP Request
+
+`GET https://sandbox.trade.dvchain.co/api/v4/prices/BTC/BCH`
+
+# Token Trade
+
+Executing a trade with the Token Trade workflow consists of:
+1. Requesting an assets price for a given quantity over the `api/v5/RFQ` endpoint
+2. Submitting the `tradeKey` returned from the previous call to the `api/v5/rfq/execute` endpoint to execute your trade.
+
+## RFQ
+```json
+curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "asset":"BTC",
+    "price":10541.12,
+    "qty":1,
+    "side":"Buy",
+    "expiresIn":5000,
+    "serverTime":1568311644602,
+    "expiresAt":1568311649602,
+    "tradeKey":"5cd07738b861c31e3bd61467BTC1Buy1568311644602"
+}
+```
+
+This endpoint retrieves the buy/sell price for an asset at the requested quantity.
+
+This endpoint retrieves the buy/sell price for an asset at the requested quantity.
+If you use the `fiat` query parameter instead of `qty`, the endpoint retrieves
+the buy/sell quantity at that requested price
+
+There are two fields returned related to key expiry. The `expiresIn` field is the time in ms until
+the `tradeKey` expires, beginning from when the response was issued from the server. The `expiresAt`
+field is the server time when the time will expire in Unix millisecond time, and the `serverTime` is
+the time the response was issued, which is Unix time in milliseconds.
+
+
+### HTTP Request
+`GET https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC`
+
+### Query Params
+Parameter  | Description
+--------- | -----------
+side | Buy or Sell
+qty | The quantity you would like to purchase.
+fiat | The amount you would like to spend in USD to purchase.
+asset | The asset you would like to purchase.
+
+## Execute Trade
+
+```json
+curl "https://sandbox.trade.dvchain.co/api/v5/RFQ/execute" \
+  -X POST \
+  -d '{ "key" : "5cd07738b861c31e3bd61467BTC1Buy1568311644602" }' \
+  -H "Content-Type: application/json" \
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "_id":"5d7a8e90019f4113c4df8e41",
+    "createdAt":"2019-09-12T18:29:36.991Z",
+    "price":10541.65,
+    "quantity":1,
+    "side":"Buy",
+    "user": { "_id": "5cd07738b861c31e3bd61467",
+              "firstName":"test",
+              "lastName":"acct" },
+    "asset":"BTC",
+    "status":"Complete"
+}
+```
+
+This endpoint executes a trade for the token given from the `api/v5/RFQ` endpoint
+
+### HTTP Request
+`POST https://sandbox.trade.dvchain.co/api/v5/RFQ/execute`
+
+### Request Body
+Parameter  | Description
+--------- | -----------
+key | tradeKey from `api/v5/RFQ` response
+
+
+# RFQ
 ## Get Current Asset Price By Size
+<aside class="warning">
+Prefer use of the [Token Trade](#Token-Trade) workflow for market orders
+</aside>
 
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
@@ -162,8 +295,10 @@ You must specify `qty` or `fiat`, but not both. Using both query parameters will
 </aside>
 
 # Trade
-
 ## Execute a Trade
+<aside class="warning">
+Prefer use of the [Token Trade](#Token-Trade) workflow for market orders
+</aside>
 
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/trade" \
@@ -208,7 +343,7 @@ qty | none | The quantity you would like to purchase.
 asset | none | The asset you would like to purchase.
 price | none | (Required for a market order) The current price of the asset returned from the /prices or /rfq endpoint.
 limitPrice | none | (Required for a limit order) The limit price that you would like to pay.
-
+baseAsset  | USD  | (Optional) The base asset that you would like to trade against.
 
 # Trades
 

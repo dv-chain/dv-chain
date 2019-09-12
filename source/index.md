@@ -19,10 +19,10 @@ Welcome to the DVC OTC API. You can use our API to access DVC OTC API endpoints,
 The DV OTC API is available in both Production as well as Sandbox Mode. Please find the corresponding URLs below
 
 ### Production
-https://otc.dvchain.co/api/v4
+https://trade.dvchain.co/api/v4
 
 ### Sandbox
-https://sandbox.otc.dvchain.co/api/v4
+https://sandbox.trade.dvchain.co/api/v4
 
 
 
@@ -31,7 +31,7 @@ https://sandbox.otc.dvchain.co/api/v4
 > To retrieve your JWT, use this code:
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/auth"
+curl "https://sandbox.trade.dvchain.co/api/v4/auth"
   -H "Authorization: ZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -54,7 +54,7 @@ You must replace <code>eyJhbGciOiJ...</code> with your JWT.
 ## Get Current Asset Prices
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/prices"
+curl "https://sandbox.trade.dvchain.co/api/v4/prices"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -115,14 +115,14 @@ The given price will expire after the "expiresAt" time has passed.
 
 ### HTTP Request
 
-`GET https://sandbox.otc.dvchain.co/api/v4/prices`
+`GET https://sandbox.trade.dvchain.co/api/v4/prices`
 
 # RFQ
 
 ## Get Current Asset Price By Size
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
+curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -146,7 +146,7 @@ The given price will expire after the "expiresAt" time has passed.
 
 ### HTTP Request
 
-`GET https://sandbox.otc.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC`
+`GET https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC`
 
 ### Query Params
 
@@ -166,7 +166,7 @@ You must specify `qty` or `fiat`, but not both. Using both query parameters will
 ## Execute a Trade
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/trade" \
+curl "https://sandbox.trade.dvchain.co/api/v4/trade" \
   -X POST \
   -d '{"side": "Buy","qty": 0.1,"price": 527.51,"asset": "BCH"}' \
   -H "Content-Type: application/json" \
@@ -196,7 +196,7 @@ This endpoint executes a trade at the current asset price for the given quantity
 
 ### HTTP Request
 
-`POST https://sandbox.otc.dvchain.co/api/v4/trades`
+`POST https://sandbox.trade.dvchain.co/api/v4/trades`
 
 ### Request Body
 
@@ -215,7 +215,7 @@ limitPrice | none | (Required for a limit order) The limit price that you would 
 ## Get All Trades
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/trades"
+curl "https://sandbox.trade.dvchain.co/api/v4/trades"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -248,7 +248,7 @@ This endpoint retrieves all trades.
 
 ### HTTP Request
 
-`GET https://sandbox.otc.dvchain.co/api/v4/trades`
+`GET https://sandbox.trade.dvchain.co/api/v4/trades`
 
 ### Query Parameters
 
@@ -262,7 +262,7 @@ limit | none | If set, it will limit the number of trades returned per page.
 ## Cancel a Limit Order
 
 ```bash
-curl "https://sandbox.otc.dvchain.co/api/v4/trades/:tradeId" \
+curl "https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId" \
   -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -280,5 +280,5 @@ This endpoint cancels an open limit order.
 
 ### HTTP Request
 
-`DELETE https://sandbox.otc.dvchain.co/api/v4/trades/:tradeId`
+`DELETE https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId`
 

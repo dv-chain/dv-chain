@@ -168,7 +168,7 @@ Executing a trade with the Token Trade workflow consists of:
 
 ## RFQ
 ```bash
-curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC"
+curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC&counterAsset=USD"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -177,6 +177,7 @@ curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC"
 ```json
 {
     "asset":"BTC",
+    "counterAsset": "USD",
     "price":10541.12,
     "qty":1,
     "side":"Buy",
@@ -190,7 +191,7 @@ curl "https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC"
 This endpoint retrieves the buy/sell price for an asset at the requested quantity.
 
 This endpoint retrieves the buy/sell price for an asset at the requested quantity.
-If you use the `fiat` query parameter instead of `qty`, the endpoint retrieves
+If you use the `total` query parameter instead of `qty`, the endpoint retrieves
 the buy/sell quantity at that requested price
 
 There are two fields returned related to key expiry. The `expiresIn` field is the time in ms until
@@ -200,15 +201,16 @@ the time the response was issued, which is Unix time in milliseconds.
 
 
 ### HTTP Request
-`GET https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC`
+`GET https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&qty=1&asset=BTC&counterAsset=USD`
 
 ### Query Params
 Parameter  | Description
 --------- | -----------
 side | Buy or Sell
 qty | The quantity you would like to purchase.
-fiat | The amount you would like to spend in USD to purchase.
+total | The amount you would like to spend in counter asset to purchase.
 asset | The asset you would like to purchase.
+counterAsset | The asset you would like to spend.
 
 ## Execute Trade
 
@@ -233,6 +235,7 @@ curl "https://sandbox.trade.dvchain.co/api/v5/RFQ/execute" \
               "firstName":"test",
               "lastName":"acct" },
     "asset":"BTC",
+    "counterAsset":"USD",
     "status":"Complete"
 }
 ```
@@ -255,7 +258,7 @@ Prefer use of the [Token Trade](#Token-Trade) workflow for market orders
 </aside>
 
 ```bash
-curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
+curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC&counterAsset=USD"
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
@@ -264,6 +267,7 @@ curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
 ```json
 {
    "asset": "ETH",
+   "counterAsset": "USD",
    "price": 201.6,
    "qty": 19,
    "side": "Buy",
@@ -272,14 +276,14 @@ curl "https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC"
 ```
 
 This endpoint retrieves the buy/sell price for an asset at the requested quantity.
-If you use the `fiat` query parameter instead of `qty`, the endpoint retrieves
+If you use the `total` query parameter instead of `qty`, the endpoint retrieves
 the buy/sell quantity at that requested price
 
 The given price will expire after the "expiresAt" time has passed.
 
 ### HTTP Request
 
-`GET https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC`
+`GET https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&qty=1&asset=BTC&counterAsset=USD`
 
 ### Query Params
 
@@ -287,11 +291,12 @@ Parameter  | Description
 --------- | -----------
 side | Buy or Sell
 qty | The quantity you would like to purchase.
-fiat | The amount you would like to spend in USD to purchase.
+total | The amount you would like to spend in USD to purchase.
 asset | The asset you would like to purchase.
+counterAsset | The asset you would like to spend.
 
 <aside class="notice">
-You must specify `qty` or `fiat`, but not both. Using both query parameters will result in undefined behavior.
+You must specify `qty` or `total`, but not both. Using both query parameters will result in undefined behavior.
 </aside>
 
 # Trade
@@ -303,7 +308,7 @@ Prefer use of the [Token Trade](#Token-Trade) workflow for market orders
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/trade" \
   -X POST \
-  -d '{"side": "Buy","qty": 0.1,"price": 527.51,"asset": "BCH"}' \
+  -d '{"side": "Buy","qty": 0.1,"price": 527.51,"asset": "BCH", "counterAsset": "USD"}' \
   -H "Content-Type: application/json" \
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
@@ -323,6 +328,7 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trade" \
         "lastName": "Ver"
     },
     "asset": "BTC",
+    "counterAsset": "USD",
     "status": "Complete"
 }
 ```
@@ -343,7 +349,7 @@ qty | none | The quantity you would like to purchase.
 asset | none | The asset you would like to purchase.
 price | none | (Required for a market order) The current price of the asset returned from the /prices or /rfq endpoint.
 limitPrice | none | (Required for a limit order) The limit price that you would like to pay.
-baseAsset  | USD  | (Optional) The base asset that you would like to trade against.
+counterAsset  | USD  | (Optional) The counter asset that you would like to trade against.
 
 # Trades
 
@@ -371,6 +377,7 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trades"
                 "lastName": "Ver"
             },
             "asset": "BCH",
+            "counterAsset": "USD",
             "status": "Complete"
         }
     ],

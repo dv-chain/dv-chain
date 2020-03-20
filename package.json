@@ -22,6 +22,10 @@
   },
   "scripts": {
     "start": "hexo server",
-    "generate": "hexo generate"
+    "generate": "hexo generate",
+    "deploy": "hexo generate && gh-pages -d public"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }

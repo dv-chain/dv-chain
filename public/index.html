@@ -1,0 +1,372 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>DV OTC | API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="apple-touch-icon" sizes="57x57" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.dvtrading.co/wp-content/themes/dv-trading/assets/images/favicon-16x16.png">
+
+    <script src="js/lib/energize.js"></script>
+<script src="js/lib/imagesloaded.min.js"></script>
+<script src="js/lib/jquery_ui.js"></script>
+<script src="js/lib/jquery.highlight.js"></script>
+<script src="js/lib/jquery.tocify.js"></script>
+<script src="js/lib/lunr.js"></script>
+    <script src="js/script.js"></script>
+
+    
+      <script>
+        $(function() {
+            setupLanguages(["bash"]);
+        });
+      </script>
+    
+  </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png">
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <!-- <img src="images/logo.png"> -->
+      <div style="height: 64px; background: white; display: flex; justify-content: center;align-items: center;"><img src="/images/chain.png" style="height: 90%;"></div>
+      
+        <div class="lang-selector">
+          
+              <a href="#" data-language-name="bash">bash</a>
+          
+        </div>
+      
+      
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      
+      <div id="toc">
+      </div>
+      
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Welcome to the DVC OTC API. You can use our API to access DVC OTC API endpoints, that expose data such as trades, prices, and user information, depending on your scope.</p>
+<h1 id="Environment-URLs"><a href="#Environment-URLs" class="headerlink" title="Environment URLs"></a>Environment URLs</h1><p>The DV OTC API is available in both Production as well as Sandbox Mode. Please find the corresponding URLs below</p>
+<h3 id="Production"><a href="#Production" class="headerlink" title="Production"></a>Production</h3><p><a href="https://trade.dvchain.co/api/v4" target="_blank" rel="noopener">https://trade.dvchain.co/api/v4</a></p>
+<h3 id="Sandbox"><a href="#Sandbox" class="headerlink" title="Sandbox"></a>Sandbox</h3><p><a href="https://sandbox.trade.dvchain.co/api/v4" target="_blank" rel="noopener">https://sandbox.trade.dvchain.co/api/v4</a></p>
+<h1 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h1><blockquote>
+<p>To retrieve your JWT, use this code:</p>
+</blockquote>
+<pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/auth"</span></span><br><span class="line">  -H <span class="string">"Authorization: ZGVtbzpwQDU1dzByZA=="</span></span><br></code></pre>
+<p>This API uses <a href="https://jwt.io/" target="_blank" rel="noopener">JSON Web Tokens</a> (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through <a href="https://swagger.io/docs/specification/authentication/basic-authentication/" target="_blank" rel="noopener">BASIC authentication</a>.<br>You can request a read only JWT that will only allow actions that will not modify, create, or delete objects.<br>To retrieve a read only token, include <code>scope=readOnly</code> in your query params. Your request URL will look like:</p>
+<p><code>https://sandbox.trade.dvchain.co/api/v4/auth?scope=readOnly</code></p>
+<p>The API expects for your JWT to be included in all API requests to the server in a header that looks like the following:</p>
+<p><code>Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></p>
+<aside class="notice"><br>You must replace <code>eyJhbGciOiJ…</code> with your JWT.<br></aside>
+
+<h1 id="Prices"><a href="#Prices" class="headerlink" title="Prices"></a>Prices</h1><h2 id="Get-Current-Asset-Prices"><a href="#Get-Current-Asset-Prices" class="headerlink" title="Get Current Asset Prices"></a>Get Current Asset Prices</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/prices"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"BTC"</span>: &#123;</span><br><span class="line">        <span class="attr">"levels"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">6181.4</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">6218.61</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">1</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">6171.43</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">6228.63</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">5</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">6161.46</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">6238.66</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">10</span></span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"expiresAt"</span>: <span class="number">1539626145342</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"ETH"</span>: &#123;</span><br><span class="line">        <span class="attr">"levels"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">198.4</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">200.6</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">10</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">197.41</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">201.6</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">20</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">196.41</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">202.61</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">30</span></span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"expiresAt"</span>: <span class="number">1539626145342</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint retrieves all available products and their prices. </p>
+<p>The levels array includes the asset price by quantity.</p>
+<p>For example, an order of up to 1 BTC would be priced at $6,218.61 per Bitcoin for a buy order, and $6,181.40 per Bitcoin for a sell order. An order of up to 5 BTC would be priced at $6,228.63 per Bitcoin for a buy order, and $6,171.43 per Bitcoin for a sell order.</p>
+<p>The given price will expire after the “expiresAt” time has passed.</p>
+<h3 id="HTTP-Request"><a href="#HTTP-Request" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>GET https://sandbox.trade.dvchain.co/api/v4/prices</code></p>
+<h2 id="Get-Coin-Pair-Pricing"><a href="#Get-Coin-Pair-Pricing" class="headerlink" title="Get Coin Pair Pricing"></a>Get Coin Pair Pricing</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/prices/BTC/BCH"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"BTC"</span>: &#123;</span><br><span class="line">        <span class="attr">"levels"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">10.59319286871961</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">11.420593368237347</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">1</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">10.588330632090761</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">11.425828970331589</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">3</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"sellPrice"</span>: <span class="number">10.581847649918963</span>,</span><br><span class="line">                <span class="attr">"buyPrice"</span>: <span class="number">11.432809773123909</span>,</span><br><span class="line">                <span class="attr">"maxQuantity"</span>: <span class="number">5</span></span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"expiresAt"</span>: <span class="number">1545161432916</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint retrieves the conversion pricing for coin to coin transactions.</p>
+<p>The first symbol in the URL is the asset that will be purchased, and the second symbol is the asset that will be sold.</p>
+<h3 id="HTTP-Request-1"><a href="#HTTP-Request-1" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>GET https://sandbox.trade.dvchain.co/api/v4/prices/BTC/BCH</code></p>
+<h1 id="Token-Trade"><a href="#Token-Trade" class="headerlink" title="Token Trade"></a>Token Trade</h1><p>Executing a trade with the Token Trade workflow consists of:</p>
+<ol>
+<li>Requesting an assets price for a given quantity over the <code>api/v5/RFQ</code> endpoint</li>
+<li>Submitting the <code>tradeKey</code> returned from the previous call to the <code>api/v5/rfq/execute</code> endpoint to execute your trade.</li>
+</ol>
+<h2 id="RFQ"><a href="#RFQ" class="headerlink" title="RFQ"></a>RFQ</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&amp;qty=1&amp;asset=BTC&amp;counterAsset=USD"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"asset"</span>:<span class="string">"BTC"</span>,</span><br><span class="line">    <span class="attr">"counterAsset"</span>: <span class="string">"USD"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">10541.12</span>,</span><br><span class="line">    <span class="attr">"qty"</span>:<span class="number">1</span>,</span><br><span class="line">    <span class="attr">"side"</span>:<span class="string">"Buy"</span>,</span><br><span class="line">    <span class="attr">"expiresIn"</span>:<span class="number">5000</span>,</span><br><span class="line">    <span class="attr">"serverTime"</span>:<span class="number">1568311644602</span>,</span><br><span class="line">    <span class="attr">"expiresAt"</span>:<span class="number">1568311649602</span>,</span><br><span class="line">    <span class="attr">"tradeKey"</span>:<span class="string">"5cd07738b861c31e3bd61467BTC1Buy1568311644602"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint retrieves the buy/sell price for an asset at the requested quantity.</p>
+<p>This endpoint retrieves the buy/sell price for an asset at the requested quantity.<br>If you use the <code>total</code> query parameter instead of <code>qty</code>, the endpoint retrieves<br>the buy/sell quantity at that requested price</p>
+<p>There are two fields returned related to key expiry. The <code>expiresIn</code> field is the time in ms until<br>the <code>tradeKey</code> expires, beginning from when the response was issued from the server. The <code>expiresAt</code><br>field is the server time when the time will expire in Unix millisecond time, and the <code>serverTime</code> is<br>the time the response was issued, which is Unix time in milliseconds.</p>
+<h3 id="HTTP-Request-2"><a href="#HTTP-Request-2" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>GET https://sandbox.trade.dvchain.co/api/v5/RFQ?side=Buy&amp;qty=1&amp;asset=BTC&amp;counterAsset=USD</code></p>
+<h3 id="Query-Params"><a href="#Query-Params" class="headerlink" title="Query Params"></a>Query Params</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>side</td>
+<td>Buy or Sell</td>
+</tr>
+<tr>
+<td>qty</td>
+<td>The quantity you would like to purchase.</td>
+</tr>
+<tr>
+<td>total</td>
+<td>The amount you would like to spend in counter asset to purchase.</td>
+</tr>
+<tr>
+<td>asset</td>
+<td>The asset you would like to purchase.</td>
+</tr>
+<tr>
+<td>counterAsset</td>
+<td>The asset you would like to spend.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Execute-Trade"><a href="#Execute-Trade" class="headerlink" title="Execute Trade"></a>Execute Trade</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v5/RFQ/execute"</span> \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d <span class="string">'&#123; "key" : "5cd07738b861c31e3bd61467BTC1Buy1568311644602" &#125;'</span> \</span><br><span class="line">  -H <span class="string">"Content-Type: application/json"</span> \</span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_id"</span>:<span class="string">"5d7a8e90019f4113c4df8e41"</span>,</span><br><span class="line">    <span class="attr">"createdAt"</span>:<span class="string">"2019-09-12T18:29:36.991Z"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">10541.65</span>,</span><br><span class="line">    <span class="attr">"quantity"</span>:<span class="number">1</span>,</span><br><span class="line">    <span class="attr">"side"</span>:<span class="string">"Buy"</span>,</span><br><span class="line">    <span class="attr">"user"</span>: &#123; <span class="attr">"_id"</span>: <span class="string">"5cd07738b861c31e3bd61467"</span>,</span><br><span class="line">              <span class="attr">"firstName"</span>:<span class="string">"test"</span>,</span><br><span class="line">              <span class="attr">"lastName"</span>:<span class="string">"acct"</span> &#125;,</span><br><span class="line">    <span class="attr">"asset"</span>:<span class="string">"BTC"</span>,</span><br><span class="line">    <span class="attr">"counterAsset"</span>:<span class="string">"USD"</span>,</span><br><span class="line">    <span class="attr">"status"</span>:<span class="string">"Complete"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint executes a trade for the token given from the <code>api/v5/RFQ</code> endpoint</p>
+<h3 id="HTTP-Request-3"><a href="#HTTP-Request-3" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>POST https://sandbox.trade.dvchain.co/api/v5/RFQ/execute</code></p>
+<h3 id="Request-Body"><a href="#Request-Body" class="headerlink" title="Request Body"></a>Request Body</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>tradeKey from <code>api/v5/RFQ</code> response</td>
+</tr>
+</tbody>
+</table>
+<h1 id="RFQ-1"><a href="#RFQ-1" class="headerlink" title="RFQ"></a>RFQ</h1><h2 id="Get-Current-Asset-Price-By-Size"><a href="#Get-Current-Asset-Price-By-Size" class="headerlink" title="Get Current Asset Price By Size"></a>Get Current Asset Price By Size</h2><aside class="warning"><br>Prefer use of the <a href="#Token-Trade">Token Trade</a> workflow for market orders<br></aside>
+
+<pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&amp;qty=1&amp;asset=BTC&amp;counterAsset=USD"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">   <span class="attr">"asset"</span>: <span class="string">"ETH"</span>,</span><br><span class="line">   <span class="attr">"counterAsset"</span>: <span class="string">"USD"</span>,</span><br><span class="line">   <span class="attr">"price"</span>: <span class="number">201.6</span>,</span><br><span class="line">   <span class="attr">"qty"</span>: <span class="number">19</span>,</span><br><span class="line">   <span class="attr">"side"</span>: <span class="string">"Buy"</span>,</span><br><span class="line">   <span class="attr">"expiresAt"</span>: <span class="number">1540246595317</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint retrieves the buy/sell price for an asset at the requested quantity.<br>If you use the <code>total</code> query parameter instead of <code>qty</code>, the endpoint retrieves<br>the buy/sell quantity at that requested price</p>
+<p>The given price will expire after the “expiresAt” time has passed.</p>
+<h3 id="HTTP-Request-4"><a href="#HTTP-Request-4" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>GET https://sandbox.trade.dvchain.co/api/v4/RFQ?side=Buy&amp;qty=1&amp;asset=BTC&amp;counterAsset=USD</code></p>
+<h3 id="Query-Params-1"><a href="#Query-Params-1" class="headerlink" title="Query Params"></a>Query Params</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>side</td>
+<td>Buy or Sell</td>
+</tr>
+<tr>
+<td>qty</td>
+<td>The quantity you would like to purchase.</td>
+</tr>
+<tr>
+<td>total</td>
+<td>The amount you would like to spend in USD to purchase.</td>
+</tr>
+<tr>
+<td>asset</td>
+<td>The asset you would like to purchase.</td>
+</tr>
+<tr>
+<td>counterAsset</td>
+<td>The asset you would like to spend.</td>
+</tr>
+</tbody>
+</table>
+<aside class="notice"><br>You must specify <code>qty</code> or <code>total</code>, but not both. Using both query parameters will result in undefined behavior.<br></aside>
+
+<h1 id="Trade"><a href="#Trade" class="headerlink" title="Trade"></a>Trade</h1><h2 id="Execute-a-Trade"><a href="#Execute-a-Trade" class="headerlink" title="Execute a Trade"></a>Execute a Trade</h2><aside class="warning"><br>Prefer use of the <a href="#Token-Trade">Token Trade</a> workflow for market orders<br></aside>
+
+<pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/trade"</span> \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d <span class="string">'&#123;"side": "Buy","qty": 0.1,"price": 527.51,"asset": "BCH", "counterAsset": "USD"&#125;'</span> \</span><br><span class="line">  -H <span class="string">"Content-Type: application/json"</span> \</span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_id"</span>: <span class="string">"5bbe696c5f7cec5b98ca5e9a"</span>,</span><br><span class="line">    <span class="attr">"createdAt"</span>: <span class="string">"2018-10-10T21:04:44.361Z"</span>,</span><br><span class="line">    <span class="attr">"price"</span>: <span class="number">527.51</span>,</span><br><span class="line">    <span class="attr">"quantity"</span>: <span class="number">0.1</span>,</span><br><span class="line">    <span class="attr">"side"</span>: <span class="string">"Buy"</span>,</span><br><span class="line">    <span class="attr">"user"</span>: &#123;</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"5ab545a4b933aa1f78e25f34"</span>,</span><br><span class="line">        <span class="attr">"firstName"</span>: <span class="string">"Roger"</span>,</span><br><span class="line">        <span class="attr">"lastName"</span>: <span class="string">"Ver"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"asset"</span>: <span class="string">"BTC"</span>,</span><br><span class="line">    <span class="attr">"counterAsset"</span>: <span class="string">"USD"</span>,</span><br><span class="line">    <span class="attr">"status"</span>: <span class="string">"Complete"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint executes a trade at the current asset price for the given quantity.</p>
+<h3 id="HTTP-Request-5"><a href="#HTTP-Request-5" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>POST https://sandbox.trade.dvchain.co/api/v4/trades</code></p>
+<h3 id="Request-Body-1"><a href="#Request-Body-1" class="headerlink" title="Request Body"></a>Request Body</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderType</td>
+<td>Market</td>
+<td>Market or Limit</td>
+</tr>
+<tr>
+<td>side</td>
+<td>none</td>
+<td>Buy or Sell</td>
+</tr>
+<tr>
+<td>qty</td>
+<td>none</td>
+<td>The quantity you would like to purchase.</td>
+</tr>
+<tr>
+<td>asset</td>
+<td>none</td>
+<td>The asset you would like to purchase.</td>
+</tr>
+<tr>
+<td>price</td>
+<td>none</td>
+<td>(Required for a market order) The current price of the asset returned from the /prices or /rfq endpoint.</td>
+</tr>
+<tr>
+<td>limitPrice</td>
+<td>none</td>
+<td>(Required for a limit order) The limit price that you would like to pay.</td>
+</tr>
+<tr>
+<td>counterAsset</td>
+<td>USD</td>
+<td>(Optional) The base asset that you would like to trade against.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Trades"><a href="#Trades" class="headerlink" title="Trades"></a>Trades</h1><h2 id="Get-All-Trades"><a href="#Get-All-Trades" class="headerlink" title="Get All Trades"></a>Get All Trades</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/trades"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"data"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"_id"</span>: <span class="string">"5bbd1c6709ac22627841ad32"</span>,</span><br><span class="line">            <span class="attr">"createdAt"</span>: <span class="string">"2018-10-09T21:23:51.757Z"</span>,</span><br><span class="line">            <span class="attr">"price"</span>: <span class="number">513.3</span>,</span><br><span class="line">            <span class="attr">"quantity"</span>: <span class="number">0.1</span>,</span><br><span class="line">            <span class="attr">"side"</span>: <span class="string">"Buy"</span>,</span><br><span class="line">            <span class="attr">"user"</span>: &#123;</span><br><span class="line">                <span class="attr">"_id"</span>: <span class="string">"5ab545a4b933aa1f78e25f34"</span>,</span><br><span class="line">                <span class="attr">"firstName"</span>: <span class="string">"Roger"</span>,</span><br><span class="line">                <span class="attr">"lastName"</span>: <span class="string">"Ver"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"asset"</span>: <span class="string">"BCH"</span>,</span><br><span class="line">            <span class="attr">"counterAsset"</span>: <span class="string">"USD"</span>,</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"Complete"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"pageCount"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint retrieves all trades.</p>
+<h3 id="HTTP-Request-6"><a href="#HTTP-Request-6" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>GET https://sandbox.trade.dvchain.co/api/v4/trades</code></p>
+<h3 id="Query-Parameters"><a href="#Query-Parameters" class="headerlink" title="Query Parameters"></a>Query Parameters</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before</td>
+<td>none</td>
+<td>If set, will only return trades before this date/time.</td>
+</tr>
+<tr>
+<td>after</td>
+<td>none</td>
+<td>If set, will only return trades after this date/time.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>none</td>
+<td>If set, it will return the given page number of trades.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>none</td>
+<td>If set, it will limit the number of trades returned per page.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Cancel-a-Limit-Order"><a href="#Cancel-a-Limit-Order" class="headerlink" title="Cancel a Limit Order"></a>Cancel a Limit Order</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId"</span> \</span><br><span class="line">  -X DELETE \</span><br><span class="line">  -H <span class="string">"Content-Type: application/json"</span> \</span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"message"</span>: <span class="string">"Trade successfully cancelled."</span></span><br><span class="line">&#125;</span><br></code></pre>
+<p>This endpoint cancels an open limit order.</p>
+<h3 id="HTTP-Request-7"><a href="#HTTP-Request-7" class="headerlink" title="HTTP Request"></a>HTTP Request</h3><p><code>DELETE https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId</code></p>
+
+        
+          
+              <h1 id="Errors"><a href="#Errors" class="headerlink" title="Errors"></a>Errors</h1><!-- <aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Whiteboard allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside> -->
+<p>The API uses the following error codes:</p>
+<table>
+<thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>Bad Request – There is something wrong with the request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized – Your API key is wrong</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden – The endpoint requested is hidden for administrators only</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found – The specified endpoint could not be found</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable – You requested a format that isn’t json</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error – We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable – We’re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      </div>
+      <div class="dark-box">
+        
+          <div class="lang-selector">
+            
+                <a href="#" data-language-name="bash">bash</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </body>
+</html>

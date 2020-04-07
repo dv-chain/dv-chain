@@ -86,6 +86,15 @@
 <p><code>Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></p>
 <aside class="notice"><br>You must replace <code>eyJhbGciOiJ…</code> with your JWT.<br></aside>
 
+<h2 id="BlackListing-Token"><a href="#BlackListing-Token" class="headerlink" title="BlackListing Token"></a>BlackListing Token</h2><p>This API allows you to blacklist your generated token.</p>
+<p>To blacklist send a post request with your authorization and the token to be blacklisted in a json body with key token.</p>
+<p><code>https://sandbox.trade.dvchain.co/api/v4/token/deactivate</code></p>
+<blockquote>
+<p>To blacklist your JWT, use this code:</p>
+</blockquote>
+<pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/token/deactivate"</span> \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d <span class="string">'&#123; "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" &#125;'</span> \</span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
+<aside class="notice"><br>You must replace <code>eyJhbGciOiJ…</code> with your JWT.<br></aside>
+
 <h1 id="Prices"><a href="#Prices" class="headerlink" title="Prices"></a>Prices</h1><h2 id="Get-Current-Asset-Prices"><a href="#Get-Current-Asset-Prices" class="headerlink" title="Get Current Asset Prices"></a>Get Current Asset Prices</h2><pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/prices"</span></span><br><span class="line">  -H <span class="string">"Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"</span></span><br></code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>

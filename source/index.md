@@ -52,6 +52,27 @@ You must replace <code>eyJhbGciOiJ...</code> with your JWT.
 <aside class="notice">
 If you encounter issues getting the jwt token, make sure you are able to login to the DV OTC using the user name and password. In some cases 401 unauthorized response is sent when your username and password has some invalid ascii characters. 
 </aside>
+
+## BlackListing Token
+
+This API allows you to blacklist your generated token.
+
+To blacklist send a post request with your authorization and the token to be blacklisted in a json body with key token.
+
+`https://sandbox.trade.dvchain.co/api/v4/token/deactivate`
+
+> To blacklist your JWT, use this code:
+
+```bash
+curl "https://sandbox.trade.dvchain.co/api/v4/token/deactivate" \
+  -X POST \
+  -d '{ "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" }' \
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+<aside class="notice">
+You must replace <code>eyJhbGciOiJ...</code> with your JWT.
+</aside>
+
 # Prices
 
 ## Get Current Asset Prices

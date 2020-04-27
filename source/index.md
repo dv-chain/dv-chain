@@ -32,7 +32,7 @@ https://sandbox.trade.dvchain.co/api/v4
 
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/auth"
-  -H "Authorization: ZGVtbzpwQDU1dzByZA=="
+  -H "Authorization: Basic ZGVtbzpwQDU1dzByZA=="
 ```
 
 This API uses [JSON Web Tokens](https://jwt.io/) (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through [BASIC authentication](https://swagger.io/docs/specification/authentication/basic-authentication/).
@@ -49,6 +49,9 @@ The API expects for your JWT to be included in all API requests to the server in
 You must replace <code>eyJhbGciOiJ...</code> with your JWT.
 </aside>
 
+<aside class="notice">
+If you encounter issues getting the jwt token, make sure you are able to login to the DV OTC using the user name and password. In some cases 401 unauthorized response is sent when your username and password has some invalid ascii characters. 
+</aside>
 # Prices
 
 ## Get Current Asset Prices

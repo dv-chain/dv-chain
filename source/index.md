@@ -375,6 +375,43 @@ price | none | (Required for a market order) The current price of the asset retu
 limitPrice | none | (Required for a limit order) The limit price that you would like to pay.
 counterAsset  | USD  | (Optional) The counter asset that you would like to trade against.
 
+# Limits
+
+## Get Current Positions
+
+```bash
+curl "https://sandbox.trade.dvchain.co/api/v4/balances"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "assets": [
+        {
+            "asset": "XMR",
+            "maxSell": 5000,
+            "maxBuy": 5000,
+            "position": 2
+        },
+        {
+            "asset": "BTC",
+            "maxSell": 250,
+            "maxBuy": 250,
+            "position": 2
+        },
+        {
+            "asset": "USD",
+            "maxSell": 2575000,
+            "maxBuy": 2575000,
+            "position": -17044.82
+        }
+    ],
+    "usdBalance": -17044.82
+}
+```
+
 # Trades
 
 ## Get All Trades

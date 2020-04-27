@@ -411,6 +411,8 @@ curl "https://sandbox.trade.dvchain.co/api/v4/balances"
     "usdBalance": -17044.82
 }
 ```
+This endpoint retrieves the net positions.
+
 
 # Trades
 

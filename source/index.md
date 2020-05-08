@@ -32,7 +32,7 @@ https://sandbox.trade.dvchain.co/api/v4
 
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/auth"
-  -H "Authorization: ZGVtbzpwQDU1dzByZA=="
+  -H "Authorization: Basic ZGVtbzpwQDU1dzByZA=="
 ```
 
 This API uses [JSON Web Tokens](https://jwt.io/) (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through [BASIC authentication](https://swagger.io/docs/specification/authentication/basic-authentication/).
@@ -47,6 +47,10 @@ The API expects for your JWT to be included in all API requests to the server in
 
 <aside class="notice">
 You must replace <code>eyJhbGciOiJ...</code> with your JWT.
+</aside>
+
+<aside class="notice">
+If you encounter issues getting the jwt token, make sure you are able to login to the DV OTC using the user name and password. In some cases 401 unauthorized response is sent when your username and password has some invalid ascii characters. 
 </aside>
 
 ## BlackListing Token
@@ -371,6 +375,45 @@ asset | none | The asset you would like to purchase.
 price | none | (Required for a market order) The current price of the asset returned from the /prices or /rfq endpoint.
 limitPrice | none | (Required for a limit order) The limit price that you would like to pay.
 counterAsset  | USD  | (Optional) The counter asset that you would like to trade against.
+
+# Limits
+
+## Get Current Positions
+
+```bash
+curl "https://sandbox.trade.dvchain.co/api/v4/balances"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "assets": [
+        {
+            "asset": "XMR",
+            "maxSell": 5000,
+            "maxBuy": 5000,
+            "position": 2
+        },
+        {
+            "asset": "BTC",
+            "maxSell": 250,
+            "maxBuy": 250,
+            "position": 2
+        },
+        {
+            "asset": "USD",
+            "maxSell": 2575000,
+            "maxBuy": 2575000,
+            "position": -17044.82
+        }
+    ],
+    "usdBalance": -17044.82
+}
+```
+This endpoint retrieves the net positions.
+
 
 # Trades
 

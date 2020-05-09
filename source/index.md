@@ -349,8 +349,8 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trade" \
     "side": "Buy",
     "user": {
         "_id": "5ab545a4b933aa1f78e25f34",
-        "firstName": "Roger",
-        "lastName": "Ver"
+        "firstName": "Satoshi",
+        "lastName": "Nakamoto"
     },
     "asset": "BTC",
     "counterAsset": "USD",
@@ -417,7 +417,7 @@ This endpoint retrieves the net positions.
 
 # Trades
 
-## Get All Trades
+## Get All Trades and Orders
 
 ```bash
 curl "https://sandbox.trade.dvchain.co/api/v4/trades"
@@ -437,8 +437,8 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trades"
             "side": "Buy",
             "user": {
                 "_id": "5ab545a4b933aa1f78e25f34",
-                "firstName": "Roger",
-                "lastName": "Ver"
+                "firstName": "Satoshi",
+                "lastName": "Nakamoto"
             },
             "asset": "BCH",
             "counterAsset": "USD",
@@ -450,7 +450,7 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trades"
 }
 ```
 
-This endpoint retrieves all trades.
+This endpoint retrieves all trades and orders
 
 ### HTTP Request
 

@@ -464,11 +464,12 @@ before | none | If set, will only return trades before this date/time.
 after | none |  If set, will only return trades after this date/time.
 page | none | If set, it will return the given page number of trades.
 limit | none | If set, it will limit the number of trades returned per page.
+status | none | If set, it will return only the trades corresponding to the status. Allowed values are Open, Cancelled, Complete
 
 ## Cancel a Limit Order
 
 ```bash
-curl "https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId" \
+curl "https://sandbox.trade.dvchain.co/api/v4/trades/:id" \
   -X DELETE \
   -H "Content-Type: application/json" \
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -486,5 +487,5 @@ This endpoint cancels an open limit order.
 
 ### HTTP Request
 
-`DELETE https://sandbox.trade.dvchain.co/api/v4/trades/:tradeId`
+`DELETE https://sandbox.trade.dvchain.co/api/v4/trades/:id`
 

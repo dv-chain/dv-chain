@@ -435,6 +435,8 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trades"
             "price": 513.3,
             "quantity": 0.1,
             "side": "Buy",
+            "tradeKey" : "1XRPUSD1Buy1595607528354",
+            "clientTag" : "90c2f1ee-fe3b-497f-9b9b-8ed2595a1004",
             "user": {
                 "_id": "5ab545a4b933aa1f78e25f34",
                 "firstName": "Satoshi",
@@ -465,6 +467,53 @@ after | none |  If set, will only return trades after this date/time.
 page | none | If set, it will return the given page number of trades.
 limit | none | If set, it will limit the number of trades returned per page.
 status | none | If set, it will return only the trades corresponding to the status. Allowed values are Open, Cancelled, Complete
+
+## Query trades by Id, Trade key or Client tag
+
+```bash
+curl "https://sandbox.trade.dvchain.co/api/v4/trade?ids=90c2f1ee-fe3b-497f-9b9b-8ed2595a1004,90c2f1ee-fe3b-497f-9b9b-8ed2595a1004&tradeKeys=1XRPUSD1Buy1595607528354,1XRPUSD1Buy1595607528354&clientTags=90c2f1ee-fe3b-497f-9b9b-8ed2595a1004"
+  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "data": [
+        {
+            "_id": "90c2f1ee-fe3b-497f-9b9b-8ed2595a1004",
+            "createdAt": "2018-10-09T21:23:51.757Z",
+            "price": 513.3,
+            "quantity": 0.1,
+            "side": "Buy",
+            "tradeKey" : "1XRPUSD1Buy1595607528354",
+            "clientTag" : "90c2f1ee-fe3b-497f-9b9b-8ed2595a1004",
+            "user": {
+                "_id": "5ab545a4b933aa1f78e25f34",
+                "firstName": "Satoshi",
+                "lastName": "Nakamoto"
+            },
+            "asset": "BCH",
+            "counterAsset": "USD",
+            "status": "Complete"
+        }
+    ]
+}
+```
+
+This endpoint retrieves all trades and orders with tradeKey, id, client tag provided
+
+### HTTP Request
+
+`GET https://sandbox.trade.dvchain.co/api/v4/trade?ids=90c2f1ee-fe3b-497f-9b9b-8ed2595a1004,90c2f1ee-fe3b-497f-9b9b-8ed2595a1004&tradeKeys=1XRPUSD1Buy1595607528354,1XRPUSD1Buy1595607528354`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+ids | none | Comma seperated order ids.
+tradeKeys | none |  Comma seperated tradeKeys.
+clientTags | none | Comma seperated client tag provided during order creation.
 
 ## Cancel a Limit Order
 

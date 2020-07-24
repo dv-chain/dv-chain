@@ -475,7 +475,7 @@ curl "https://sandbox.trade.dvchain.co/api/v4/trade?ids=90c2f1ee-fe3b-497f-9b9b-
   -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON structured like this
 
 ```json
 {

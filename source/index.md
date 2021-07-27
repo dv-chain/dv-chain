@@ -28,51 +28,7 @@ https://sandbox.trade.dvchain.co/api/v4
 
 # Authentication
 
-> To retrieve your JWT, use this code:
-
-```bash
-curl "https://sandbox.trade.dvchain.co/api/v4/auth"
-  -H "Authorization: Basic ZGVtbzpwQDU1dzByZA=="
-```
-
-This API uses [JSON Web Tokens](https://jwt.io/) (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through [BASIC authentication](https://swagger.io/docs/specification/authentication/basic-authentication/).
-You can request a read only JWT that will only allow actions that will not modify, create, or delete objects.
-To retrieve a read only token, include `scope=readOnly` in your query params. Your request URL will look like:
-
-`https://sandbox.trade.dvchain.co/api/v4/auth?scope=readOnly`
-
-The API expects for your JWT to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
-
-<aside class="notice">
-You must replace <code>eyJhbGciOiJ...</code> with your JWT.
-</aside>
-
-<aside class="notice">
-If you encounter issues getting the jwt token, make sure you are able to login to the DV OTC using the user name and password. In some cases 401 unauthorized response is sent when your username and password has some invalid ascii characters. 
-</aside>
-
-## BlackListing Token
-
-This API allows you to blacklist your generated token.
-
-To blacklist send a post request with your authorization and the token to be blacklisted in a json body with key token.
-
-`https://sandbox.trade.dvchain.co/api/v4/token/deactivate`
-
-> To blacklist your JWT, use this code:
-
-```bash
-curl "https://sandbox.trade.dvchain.co/api/v4/token/deactivate" \
-  -X POST \
-  -d '{ "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" }' \
-  -H "Content-Type: application/json" \
-  -H "Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-```
-<aside class="notice">
-You must replace <code>eyJhbGciOiJ...</code> with your JWT.
-</aside>
+Get the jwt access token following the docs at https://github.com/dv-chain/dv-chain/wiki/Rest-API-Authentication
 
 # Prices
 
@@ -274,6 +230,7 @@ This endpoint executes a trade for the token given from the `api/v5/RFQ` endpoin
 Parameter  | Description
 --------- | -----------
 key | tradeKey from `api/v5/RFQ` response
+clientTag | An optional tag to associat an order with.
 
 
 # RFQ
@@ -362,7 +319,7 @@ This endpoint executes a trade at the current asset price for the given quantity
 
 ### HTTP Request
 
-`POST https://sandbox.trade.dvchain.co/api/v4/trades`
+`POST https://sandbox.trade.dvchain.co/api/v4/trade`
 
 ### Request Body
 

@@ -80,6 +80,7 @@
 <p>To retrieve your JWT, use this code:</p>
 </blockquote>
 <pre><code class="highlight bash"><span class="line">curl <span class="string">"https://sandbox.trade.dvchain.co/api/v4/auth"</span></span><br><span class="line">  -H <span class="string">"Authorization: Basic ZGVtbzpwQDU1dzByZA=="</span></span><br></code></pre>
+<p>Deprecated Follow <a href="https://github.com/dv-chain/dv-chain/wiki/Rest-API-Authentication" target="_blank" rel="noopener">API V5</a></p>
 <p>This API uses <a href="https://jwt.io/" target="_blank" rel="noopener">JSON Web Tokens</a> (JWTs) to allow access to the API. You can retrive a new token using your DVC OTC credentials through <a href="https://swagger.io/docs/specification/authentication/basic-authentication/" target="_blank" rel="noopener">BASIC authentication</a>.<br>You can request a read only JWT that will only allow actions that will not modify, create, or delete objects.<br>To retrieve a read only token, include <code>scope=readOnly</code> in your query params. Your request URL will look like:</p>
 <p><code>https://sandbox.trade.dvchain.co/api/v4/auth?scope=readOnly</code></p>
 <p>The API expects for your JWT to be included in all API requests to the server in a header that looks like the following:</p>

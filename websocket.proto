@@ -1,0 +1,394 @@
+syntax = "proto3";
+package clientmessages;
+
+
+enum Types {
+    subscribe = 0;
+    unsubscribe = 1;
+    requestresponse = 2;
+    pingpong = 3;
+    info = 4;
+    error = 5;
+}
+
+// Not used, just for reference of what is available
+enum Events {
+    levels = 0;
+    prices = 1;
+    reconnect = 2;
+    notifications = 3;
+    any_uuid = 4;
+}
+
+
+message InfoMessage {
+    string message = 1;
+}
+
+message ErrorMessage {
+    int32 code = 1;
+    string message = 2;
+}
+
+message Level {
+    double sell_price = 1;
+    double buy_price = 2;
+    double max_quantity = 3;
+}
+
+message PricesData {
+    int64 last_update = 1;
+    double price = 2;
+    double best_bid = 3;
+    double best_ask = 4;
+    double high = 5;
+    double low = 6;
+    double close = 7;
+    double volume = 8;
+    double change = 9;
+    double change_percent = 10;
+    string market = 11;
+}
+
+message LevelData {
+    int64 last_update = 1;
+    repeated Level levels = 2;
+    string quote_id = 3;
+    string market = 4;
+}
+
+message TradeStatusRequest {
+    string ids = 1;
+    string trade_keys = 2;
+    string client_tags = 3;
+}
+
+message CreateOrderMessage {
+    double price = 1;
+    double limit_price = 2;
+    double qty = 3;
+    OrderSide side = 4;
+    OrderType order_type = 5;
+    string quote_id = 6;
+    string asset = 7;
+    string counter_asset = 8;
+    string client_tag = 9;
+    int64 expires = 10;
+}
+
+message User {
+    string _id = 1;
+    string first_name = 2;
+    string last_name = 3;
+}
+
+message Trade {
+    double price = 1;
+    double quantity = 2;
+    OrderSide side = 3;
+    OrderType order_type = 4;
+    string created_at = 5;
+    string _id = 6;
+    User user = 7;    
+    string asset = 8;
+    string counter_asset = 9;
+    string status = 10;
+    string updated_at = 11;
+    string filled_at = 12;
+    string client_tag = 13;
+}
+
+message TradeStatusResponse {
+    repeated Trade trades = 1;
+}
+
+message Asset {
+    string asset = 1;
+    double max_sell = 2;
+    double max_buy = 3;
+    double position = 4;
+}
+
+message LimitsResponse {
+    repeated Asset assets = 1;
+    double usd_balance = 2;
+}
+
+message StatusMessage {
+    string message = 1;
+}
+
+message OrderUpdate {
+    double price = 1;
+    double quantity = 2;
+    double limit_price = 3;
+    OrderSide side = 4;
+    string _id = 5;
+    string created_at = 6;
+    User user = 7;
+    string asset = 8;
+    string counter_asset = 9;
+    string status = 10;
+    string source = 11;
+    string client_tag = 12;
+}
+
+enum OrderSide {
+    Buy = 0;
+    Sell = 1;
+}
+
+enum OrderType {
+    MARKET = 0;
+    LIMIT = 1;
+}
+
+message PriceHistory {
+    double Timestamp = 1;
+    double Open = 2;
+    double High = 3;
+    double Low = 4;
+    double Close = 5;
+}
+
+message PriceHistoryRequest {
+    int32 interval = 1;
+    int32 count = 2;
+    int64 startTime = 3;
+    string symbol = 4;
+}
+
+message PriceHistoryData {
+    repeated PriceHistory price_history = 1;
+}
+
+message AvailableTickerResponse {
+    repeated string tickers = 1;
+}
+
+
+message OrderFilledData {
+    string _id = 1;
+    string asset = 2;
+    string client_tag = 3;
+    string counter_asset = 4;
+    string created_at = 5;
+    string filled_at = 6;
+    string limit_price = 7;
+    string order_type = 8;
+    double price = 9;
+    double quantity = 10;
+    string side = 11;
+    string source = 12;
+    string status = 13;
+    string text = 14;
+    UserData user = 15;
+    string user_email = 16;
+    string user_name = 17;
+  }
+  
+  message OrderFilled {
+    OrderFilledData data = 1;
+    string topic = 2;
+    string user_id = 3;
+  }
+  
+  message OrderOpenedData {
+    string _id = 1;
+    string asset = 2;
+    string client_tag = 3;
+    string counter_asset = 4;
+    string created_at = 5;
+    string filled_at = 6;
+    string limit_price = 7;
+    string order_type = 8;
+    double price = 9;
+    double quantity = 10;
+    string side = 11;
+    string source = 12;
+    string status = 13;
+    string text = 14;
+    UserData user = 15;
+    string user_email = 16;
+    string user_name = 17;
+  }
+  
+  message OrderOpened {
+    OrderOpenedData data = 1;
+    string topic = 2;
+    string user_id = 3;
+  }
+  
+  message OrderCancelledData {
+    string _id = 1;
+    string asset = 2;
+    string cancelled_at = 3;
+    string client_tag = 4;
+    string counter_asset = 5;
+    string created_at = 6;
+    string filled_at = 7;
+    string limit_price = 8;
+    string order_type = 9;
+    double price = 10;
+    double quantity = 11;
+    string side = 12;
+    string source = 13;
+    string status = 14;
+    string text = 15;
+    UserData user = 16;
+    string user_email = 17;
+    string user_name = 18;
+  }
+  
+  message OrderCancelled {
+    OrderCancelledData data = 1;
+    string topic = 2;
+    string user_id = 3;
+  }
+  
+  message SettlementInfo {
+    string asset = 1;
+    uint32 asset_id = 2;
+    uint32 batch_id = 3;
+    string created_at = 4;
+    uint32 id = 5;
+    double net_quantity = 6;
+    string reference = 7;
+    string settlement_source = 8;
+    string type = 9;
+    string updated_at = 10;
+    uint32 updated_by = 11;
+    uint32 user_id = 12;
+  }
+  
+  message BatchDetail {
+    string net_quantity = 1;
+    string symbol = 2;
+  }
+  
+  message SettlementAddedData {
+    repeated BatchDetail batch_details = 1;
+    string batch_uuid = 2;
+    SettlementInfo info = 3;
+    string text = 4;
+    UserData user = 5;
+    string user_email = 6;
+  }
+  
+  message SettlementAdded {
+    SettlementAddedData data = 1;
+    string topic = 2;
+    string user_id = 3;
+  }
+  
+  message UserData {
+    string id = 1;
+    string company_name = 2;
+    string first_name = 3;
+    string group_account = 4;
+    string last_name = 5;
+    string uuid = 6;
+  }
+  
+  message LoginData {
+      string ip = 1;
+      string text = 2;
+      UserData user = 3;
+      string user_email = 4;
+    }
+    
+    message Login {
+      LoginData data = 1;
+      string topic = 2;
+      string user_id = 3;
+    }
+    
+    message BatchSettledData {
+      repeated BatchDetail batch_details = 1;
+      string batch_uuid = 2;
+      SettlementInfo info = 3;
+      string text = 4;
+      UserData user = 5;
+      string user_email = 6;
+    }
+    
+    message BatchSettled {
+      BatchSettledData data = 1;
+      string topic = 2;
+      string user_id = 3;
+    }
+    
+    message BatchCreatedData {
+      repeated BatchDetail batch_details = 1;
+      string batch_uuid = 2;
+      string text = 3;
+      UserData user = 4;
+      string user_email = 5;
+    }
+    
+    message BatchCreated {
+      BatchCreatedData data = 1;
+      string topic = 2;
+      string user_id = 3;
+    }
+    
+    message LimitChangedDataChange {
+      string new_max = 1;
+      string new_min = 2;
+      string new_unsettled_buy = 3;
+      string new_unsettled_sell = 4;
+      string old_max = 5;
+      string old_min = 6;
+      string old_unsettled_buy = 7;
+      string old_unsettled_sell = 8;
+      string symbol = 9;
+    }
+    
+    message LimitChangedData {
+      repeated LimitChangedDataChange changes = 1;
+      string text = 2;
+      UserData user = 3;
+      string user_email = 4;
+    }
+    
+    message LimitChanged {
+      LimitChangedData data = 1;
+      string topic = 2;
+      string user_id = 3;
+    }
+
+    message Notification {
+      string topic = 1;
+      string user_id = 2;
+      oneof payload {
+        OrderFilled order_filled = 3;
+        OrderOpened order_opened = 4;
+        OrderCancelled order_cancelled = 5;
+        SettlementAdded settlement_added = 6;
+        BatchSettled batch_settled = 7;
+        Login login = 8;
+        BatchCreated batch_created = 9;
+        LimitChanged limit_changed = 10;
+      }
+    }
+    
+message ClientMessage {
+    Types type = 1;
+    string event = 2;
+    string topic = 3;
+    oneof data {
+        LevelData level_data = 4;
+        PricesData prices_data = 5;
+        InfoMessage info_message = 6;
+        ErrorMessage error_message = 7;
+        TradeStatusRequest trade_status_request = 8;
+        CreateOrderMessage create_order_request = 9;
+        TradeStatusResponse trade_status_response = 10;
+        LimitsResponse limit_response = 11;
+        StatusMessage message = 12;
+        PriceHistoryRequest price_history_request = 13;
+        PriceHistoryData price_history_data = 14;
+        AvailableTickerResponse available_ticker_response = 15;
+        Notification notification = 16;
+    }
+}
